@@ -1,0 +1,61 @@
+// IndexPage.vue
+.q-header {
+  margin: 0 auto;
+  background-color: #002984;
+  width: 375px;
+}
+
+.q-page-container {
+  background-color: #ffffff;
+  margin: 0 auto;
+  max-width: 375px;
+}
+
+.router-link {
+  display: inline-block;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.row-column-main-wrapping {
+  margin-top: -5%;
+}
+
+.icon-camera-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  padding: 0;
+  margin: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
+}
+
+.icon-camera {
+  width: 24px;
+  height: 24px;
+}
+
+.name-profile {
+  margin-top: 5%;
+  margin-left: -20px;
+}
+
+.box-main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.box-main {
+  width: 341px;
+  height: 196px;
+  border-radius: 8px;
+  background-color: #002984;
+  margin-bottom: 16px;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
+}
