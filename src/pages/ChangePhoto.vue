@@ -1,29 +1,25 @@
 <template>
   <q-page>
-    <q-header reveal class="bg-primary text-white">
-      <q-toolbar>
-        <q-btn
-          flat
-          round
-          dense
-          dense-icon
-          class="text-white"
-          style="color: white"
-          @click="$router.go(-1)"
-        >
-          <i class="fa-solid fa-circle-arrow-left" style="color: #ffffff"></i>
-        </q-btn>
-        <q-toolbar-title> Ganti Foto Profil </q-toolbar-title>
-      </q-toolbar>
-    </q-header>
+    <AppNavigation>
+      <template v-slot:title>
+        <div class="text-white">Ubah Foto Profil</div>
+      </template>
+    </AppNavigation>
     <div class="container-change-photo">
       <div class="box-change-photo"></div>
       <router-link to="/takephoto" class="router-link">
         <div class="button">Ambil Dari Camera</div>
       </router-link>
-      <router-link to="/choosephoto" class="router-link">
+      <!-- <router-link to="/choosephoto" class="router-link">
         <div class="button">Ambil Dari Gallery</div>
-      </router-link>
+      </router-link> -->
+      <div class="button" v-on:click="choosePhoto">Ambil Dari Gallery</div>
+      <input
+        id="fileInput"
+        type="file"
+        style="display: none"
+        v-on:change="handleFileUpload"
+      />
       <div class="save-button">
         <div class="button-text">Simpan</div>
       </div>
@@ -32,8 +28,25 @@
 </template>
 
 <script>
+import AppNavigation from "../components/AppNavigation";
 export default {
   name: "ChangeProfile",
+  components: {
+    AppNavigation,
+  },
+  methods: {
+    choosePhoto() {
+      const fileInput = document.getElementById("fileInput");
+      fileInput.click();
+    },
+    handleFileUpload(event) {
+      const file = event.target.files[0];
+      this.$router.push({
+        name: "cropimage",
+        params: { file: file },
+      });
+    },
+  },
 };
 </script>
 
@@ -68,7 +81,7 @@ export default {
 .save-button {
   width: 375px;
   height: 44px;
-  background-color: #E0E0E0;
+  background-color: #e0e0e0;
   color: #757575;
   display: flex;
   justify-content: center;
