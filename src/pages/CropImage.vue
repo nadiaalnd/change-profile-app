@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum ut dolor modi
   iste labore totam corrupti reiciendis repellat sint consequuntur earum
   voluptas possimus, odio nisi laborum obcaecati ad sunt laudantium.
@@ -19,4 +19,134 @@ export default {
     }
   }
 }
+</script> -->
+
+<template>
+  <q-page>
+    <AppNavigation>
+      <template v-slot:title>
+        <div class="text-white">Ubah Foto Profil</div>
+      </template>
+    </AppNavigation>
+    <div class="container-change-photo">
+      <div class="box-change-photo">
+        <vue-cropper
+          ref="cropper"
+          :src="fileUrl"
+          :guides="true"
+          :view-mode="1"
+          :auto-crop-area="1"
+          @cropend="onCropEnd"
+        ></vue-cropper>
+        <img :src="selectedImage" alt="Selected Image" v-if="selectedImage" />
+      </div>
+      <router-link to="/takephoto" class="router-link">
+        <div class="button">Ambil Dari Camera</div>
+      </router-link>
+      <div class="button" v-on:click="choosePhoto">Ambil Dari Gallery</div>
+      <input
+        id="fileInput"
+        type="file"
+        style="display: none"
+        v-on:change="handleFileUpload"
+      />
+      <div class="save-button" v-on:click="saveCroppedImage">
+        <div class="button-text">Simpan</div>
+      </div>
+    </div>
+  </q-page>
+</template>
+
+<script>
+import AppNavigation from "../components/AppNavigation";
+import VueCropper from "vue-cropperjs";
+import "cropperjs/dist/cropper.css";
+
+export default {
+  name: "CropImage",
+  components: {
+    AppNavigation,
+    VueCropper,
+  },
+  data() {
+    return {
+      file: null,
+      fileUrl: null,
+      croppedImage: null,
+    };
+  },
+  mounted() {
+    this.init();
+  },
+  methods: {
+    choosePhoto() {
+      const fileInput = document.getElementById("fileInput");
+      fileInput.click();
+    },
+    handleFileUpload(event) {
+      const file = event.target.files[0];
+      this.file = file;
+      this.fileUrl = URL.createObjectURL(file);
+    },
+    init() {
+      this.file = this.$route.params.file;
+      this.fileUrl = URL.createObjectURL(this.file);
+    },
+    onCropEnd(event) {
+      this.croppedImage = this.$refs.cropper.getCroppedCanvas().toDataURL();
+    },
+    saveCroppedImage() {
+      // Lakukan sesuatu dengan gambar yang di-crop, seperti mengirimkan ke server
+      console.log("Gambar yang di-crop:", this.croppedImage);
+    },
+  },
+};
 </script>
+
+<style scoped>
+.container-change-photo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 15px;
+}
+.box-change-photo {
+  width: 343px;
+  height: 343px;
+  background-color: #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.button {
+  width: 341px;
+  height: 40px;
+  background-color: #006c84;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  margin: 65px 0px -45px 0px;
+  cursor: pointer;
+  border-radius: 8px;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
+}
+.save-button {
+  width: 375px;
+  height: 44px;
+  background-color: #002984;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 157px;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
+}
+.button-text {
+  font-size: 14px;
+}
+</style>
