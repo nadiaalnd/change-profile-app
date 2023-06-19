@@ -96,7 +96,6 @@ export default {
       this.croppedImage = this.$refs.cropper.getCroppedCanvas().toDataURL();
     },
     saveCroppedImage() {
-      // Lakukan sesuatu dengan gambar yang di-crop, seperti mengirimkan ke server
       console.log("Gambar yang di-crop:", this.croppedImage);
     },
   },
