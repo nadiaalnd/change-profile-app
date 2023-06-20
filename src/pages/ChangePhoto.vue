@@ -119,7 +119,7 @@ export default {
 <script>
 import AppNavigation from "../components/AppNavigation";
 export default {
-  name: "ChangePhoto",
+  name: "ChangeProfile",
   components: {
     AppNavigation,
   },
