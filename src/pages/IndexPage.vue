@@ -15,9 +15,16 @@
                 style="background-color: #e0e0e0"
               >
                 <img
+                  :src="selectedImage"
+                  alt="Camera Icon"
+                  class="icon-camera"
+                  v-if="selectedImage"
+                />
+                <img
                   src="/icons/camera-svgrepo-com.svg"
                   alt="Camera Icon"
                   class="icon-camera"
+                  v-else
                 />
               </button>
             </router-link>
@@ -44,6 +51,21 @@ export default {
   name: "IndexPage",
   components: {
     AppNavigation,
+  },
+  data() {
+    return {
+      selectedImage: null,
+    };
+  },
+  methods: {
+    getImageFromLocalStorage() {
+      if (localStorage.getItem("image")) {
+        this.selectedImage = localStorage.getItem("image");
+      }
+    },
+  },
+  mounted() {
+    this.getImageFromLocalStorage();
   },
 };
 </script>

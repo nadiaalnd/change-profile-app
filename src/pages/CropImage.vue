@@ -5,17 +5,16 @@
         <div class="text-white">Ubah Foto Profil</div>
       </template>
     </AppNavigation>
-    <!-- <vue-cropper
-      ref="cropper"
-      :src="fileUrl"
-      :guides="true"
-      :view-mode="1"
-      :auto-crop-area="1"
-      @cropend="onCropEnd"
-    ></vue-cropper> -->
     <div class="container-change-photo">
       <div class="box-change-photo">
-        <img :src="fileUrl" alt="Selected Image" v-if="fileUrl" />
+        <vue-cropper
+          ref="cropper"
+          :src="fileUrl"
+          :guides="true"
+          :view-mode="1"
+          :auto-crop-area="1"
+        ></vue-cropper>
+        <!-- <img :src="fileUrl" alt="Selected Image" v-if="fileUrl" /> -->
       </div>
       <router-link to="/takephoto" class="router-link">
         <div class="button">Ambil Dari Camera</div>
@@ -43,23 +42,35 @@ export default {
   name: "CropImage",
   components: {
     AppNavigation,
+    VueCropper,
   },
   data() {
     return {
       file: null,
       fileUrl: null,
       croppedImage: null,
-      coords: {
-        x: 0,
-        y: 0,
-        width: 0,
-        height: 0,
-        rotate: 0,
-        scaleX: 0,
-        scaleY: 0,
-      },
     };
   },
+  // methods: {
+  //   choosePhoto() {
+  //     const fileInput = document.getElementById("fileInput");
+  //     fileInput.click();
+  //   },
+  //   handleFileUpload(event) {
+  //     this.init();
+  //     const file = event.target.files[0];
+  //     console.log("File yang di-upload:", file);
+  //   },
+  //   init() {
+  //     this.fileUrl = URL.createObjectURL(this.file);
+  //   },
+  //   onCropEnd(event) {
+  //     this.croppedImage = this.$refs.cropper.getCroppedCanvas().toDataURL();
+  //   },
+  //   saveCroppedImage() {
+  //     console.log("Gambar yang di-crop:", this.croppedImage);
+  //   },
+  // },
   methods: {
     choosePhoto() {
       const fileInput = document.getElementById("fileInput");
@@ -69,12 +80,6 @@ export default {
       this.file = event.target.files[0];
       this.fileUrl = URL.createObjectURL(this.file);
       console.log("File yang di-upload:", this.file);
-    },
-    onCropEnd(event) {
-      this.croppedImage = this.$refs.cropper.getCroppedCanvas().toDataURL();
-    },
-    saveCroppedImage() {
-      console.log("Gambar yang di-crop:", this.croppedImage);
     },
   },
 };
@@ -88,6 +93,8 @@ export default {
   margin-top: 15px;
 }
 .box-change-photo {
+  width: 343px;
+  height: 343px;
   background-color: #e0e0e0;
   border-radius: 8px;
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
