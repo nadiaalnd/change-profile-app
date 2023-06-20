@@ -13,7 +13,7 @@
           class="capture-button"
           color="white"
           icon="camera_alt"
-          size="1rem"
+          size="2rem"
           @click="capturePhoto"
         />
       </div>
@@ -100,7 +100,7 @@ export default {
   margin-top: 20px;
   margin-left: 15px;
   width: 343px;
-  height: 600px;
+  height: 630px;
 }
 
 .camera-preview {
@@ -121,8 +121,5 @@ export default {
 
 .capture-button {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  width: 56px;
-  height: 56px;
-  font-size: 24px;
 }
 </style>
