@@ -81,6 +81,12 @@ export default {
       this.fileUrl = URL.createObjectURL(this.file);
       console.log("File yang di-upload:", this.file);
     },
+    saveCroppedImage() {
+      // save to local storage
+      localStorage.setItem("profile-photo", this.fileUrl);
+      // redirect to index page
+      this.$router.push("/");
+    },
   },
 };
 </script>

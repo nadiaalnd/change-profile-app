@@ -17,7 +17,7 @@
                 <img
                   :src="selectedImage"
                   alt="Camera Icon"
-                  class="icon-camera"
+                  class="profile-photo"
                   v-if="selectedImage"
                 />
                 <img
@@ -59,13 +59,21 @@ export default {
   },
   methods: {
     getImageFromLocalStorage() {
-      if (localStorage.getItem("image")) {
-        this.selectedImage = localStorage.getItem("image");
+      if (localStorage.getItem("profile-photo")) {
+        this.selectedImage = localStorage.getItem("profile-photo");
       }
     },
   },
   mounted() {
     this.getImageFromLocalStorage();
+    console.log(this.selectedImage);
   },
 };
 </script>
+
+<style scoped>
+.profile-photo {
+  width: 100% !important;
+  height: 100% !important;
+}
+</style>
