@@ -89,7 +89,6 @@ export default {
       this.fileUrl = URL.createObjectURL(file);
     },
     init() {
-      this.file = this.$route.params.file;
       this.fileUrl = URL.createObjectURL(this.file);
     },
     onCropEnd(event) {
