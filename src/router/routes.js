@@ -12,6 +12,12 @@ const routes = [
         name: "cropimage",
         props: true,
       },
+      {
+        path: "previewphoto",
+        component: () => import("pages/PreviewPhoto.vue"),
+        name: "previewphoto",
+        props: true,
+      },
     ],
   },
 
