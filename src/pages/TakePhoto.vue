@@ -1,120 +1,129 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6">
-        <h2>Current Camera</h2>
-        <code v-if="device">{{ device.label }}</code>
-        <div class="border">
-          <vue-web-cam
-            ref="webcam"
-            :device-id="deviceId"
-            width="100%"
-            @started="onStarted"
-            @stopped="onStopped"
-            @error="onError"
-            @cameras="onCameras"
-            @camera-change="onCameraChange"
-          />
-        </div>
-
-        <div class="row">
-          <div class="col-md-12">
-            <select v-model="camera">
-              <option>-- Select Device --</option>
-              <option
-                v-for="device in devices"
-                :key="device.deviceId"
-                :value="device.deviceId"
-              >
-                {{ device.label }}
-              </option>
-            </select>
-          </div>
-          <div class="col-md-12">
-            <button type="button" class="btn btn-primary" @click="onCapture">
-              Capture Photo
-            </button>
-            <button type="button" class="btn btn-danger" @click="onStop">
-              Stop Camera
-            </button>
-            <button type="button" class="btn btn-success" @click="onStart">
-              Start Camera
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <h2>Captured Image</h2>
-        <figure class="figure">
-          <img :src="img" class="img-responsive" />
-        </figure>
+  <q-page>
+    <AppNavigation>
+      <template v-slot:title>
+        <div class="text-white">Ambil Foto</div>
+      </template>
+    </AppNavigation>
+    <div class="camera-container">
+      <video ref="video" class="camera-preview" autoplay></video>
+      <div class="button-container">
+        <q-btn
+          round
+          class="capture-button"
+          color="white"
+          icon="camera_alt"
+          size="6rem"
+          @click="capturePhoto"
+        />
       </div>
     </div>
-  </div>
+  </q-page>
 </template>
 
 <script>
-import { WebCam } from "vue-web-cam";
+import AppNavigation from "../components/AppNavigation";
 
 export default {
-  name: "App",
+  name: "TakePhoto",
   components: {
-    "vue-web-cam": WebCam,
+    AppNavigation,
   },
   data() {
     return {
-      img: null,
-      camera: null,
-      deviceId: null,
-      devices: [],
+      mediaStream: null,
     };
   },
-  computed: {
-    device: function () {
-      return this.devices.find((n) => n.deviceId === this.deviceId);
-    },
+  mounted() {
+    this.startCamera();
   },
-  watch: {
-    camera: function (id) {
-      this.deviceId = id;
-    },
-    devices: function () {
-      // Once we have a list select the first one
-      const [first, ...tail] = this.devices;
-      if (first) {
-        this.camera = first.deviceId;
-        this.deviceId = first.deviceId;
-      }
-    },
+  beforeUnmount() {
+    this.stopCamera();
   },
   methods: {
-    onCapture() {
-      this.img = this.$refs.webcam.capture();
+    async startCamera() {
+      try {
+        this.mediaStream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+        });
+        this.$refs.video.srcObject = this.mediaStream;
+      } catch (error) {
+        console.error("Error starting camera:", error);
+      }
     },
-    onStarted(stream) {
-      console.log("On Started Event", stream);
+    stopCamera() {
+      if (this.mediaStream) {
+        this.mediaStream.getTracks().forEach((track) => track.stop());
+        this.mediaStream = null;
+      }
     },
-    onStopped(stream) {
-      console.log("On Stopped Event", stream);
-    },
-    onStop() {
-      this.$refs.webcam.stop();
-    },
-    onStart() {
-      this.$refs.webcam.start();
-    },
-    onError(error) {
-      console.log("On Error Event", error);
-    },
-    onCameras(cameras) {
-      this.devices = cameras;
-      console.log("On Cameras Event", cameras);
-    },
-    onCameraChange(deviceId) {
-      this.deviceId = deviceId;
-      this.camera = deviceId;
-      console.log("On Camera Change Event", deviceId);
+    capturePhoto() {
+      const canvas = document.createElement("canvas");
+      const video = this.$refs.video;
+      const width = video.videoWidth;
+      const height = video.videoHeight;
+      const ratio = 9 / 16;
+      const canvasWidth = Math.min(width, height * ratio);
+      const canvasHeight = canvasWidth / ratio;
+
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
+
+      const context = canvas.getContext("2d");
+      context.drawImage(
+        video,
+        (width - canvasWidth) / 2,
+        (height - canvasHeight) / 2,
+        canvasWidth,
+        canvasHeight,
+        0,
+        0,
+        canvasWidth,
+        canvasHeight
+      );
+
+      const photoUrl = canvas.toDataURL();
+      this.stopCamera();
+
+      this.$router.push({
+        name: "previewphoto",
+        params: { photoUrl: photoUrl },
+      });
     },
   },
 };
 </script>
+
+<style scoped>
+.camera-container {
+  position: relative;
+  margin-top: 20px;
+  margin-left: 15px;
+  width: 343px;
+  height: 600px;
+}
+
+.camera-preview {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
+}
+
+.button-container {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.capture-button {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  width: 56px;
+  height: 56px;
+  font-size: 24px;
+}
+
+</style>
