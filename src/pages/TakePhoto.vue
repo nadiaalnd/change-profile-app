@@ -13,7 +13,7 @@
           class="capture-button"
           color="white"
           icon="camera_alt"
-          size="6rem"
+          size="1rem"
           @click="capturePhoto"
         />
       </div>
@@ -114,7 +114,7 @@ export default {
 
 .button-container {
   position: absolute;
-  top: 80%;
+  top: 90%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -125,5 +125,4 @@ export default {
   height: 56px;
   font-size: 24px;
 }
-
 </style>
