@@ -75,5 +75,6 @@ export default {
 .profile-photo {
   width: 100% !important;
   height: 100% !important;
+  border-radius: 8px !important;
 }
 </style>

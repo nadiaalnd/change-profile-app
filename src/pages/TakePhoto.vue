@@ -13,7 +13,7 @@
           class="capture-button"
           color="white"
           icon="camera_alt"
-          size="2rem"
+          size="1rem"
           @click="capturePhoto"
         />
       </div>
@@ -82,13 +82,18 @@ export default {
         canvasHeight
       );
 
+      // const photoUrl = canvas.toDataURL();
+      // this.stopCamera();
+      // const canvas = document.createElement("canvas");
+      // // Kode lainnya
+
       const photoUrl = canvas.toDataURL();
       this.stopCamera();
 
-      this.$router.push({
-        name: "previewphoto",
-        params: { photoUrl: photoUrl },
-      });
+      // Simpan gambar di local storage
+      localStorage.setItem("temporary-photo", photoUrl);
+
+      this.$router.push("/previewphoto");
     },
   },
 };
@@ -100,7 +105,7 @@ export default {
   margin-top: 20px;
   margin-left: 15px;
   width: 343px;
-  height: 630px;
+  height: 550px;
 }
 
 .camera-preview {

@@ -82,6 +82,7 @@ export default {
       console.log("File yang di-upload:", this.file);
     },
     saveCroppedImage() {
+      // const croppedData = this.$refs.cropper.getCroppedCanvas().toDataURL();
       // save to local storage
       localStorage.setItem("profile-photo", this.fileUrl);
       // redirect to index page
@@ -96,7 +97,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 15px;
+  margin-top: 10px;
 }
 .box-change-photo {
   width: 343px;
@@ -118,7 +119,7 @@ export default {
   justify-content: center;
   align-items: center;
   color: white;
-  margin: 65px 0px -45px 0px;
+  margin: 40px 0px -25px 0px;
   cursor: pointer;
   border-radius: 8px;
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
@@ -131,8 +132,9 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 157px;
+  margin-top: 87px;
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 }
 .button-text {
   font-size: 14px;

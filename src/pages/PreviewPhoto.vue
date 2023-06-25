@@ -2,12 +2,23 @@
   <q-page>
     <AppNavigation>
       <template v-slot:title>
-        <div class="text-white">Potong Gambar</div>
+        <div class="text-white">Preview Foto</div>
       </template>
     </AppNavigation>
-    <div class="preview-container">
+    <!-- <div class="preview-container">
       <img :src="photoUrl" alt="Preview Foto" class="preview-image" />
       <div class="save-button" @click="savePhoto">Simpan</div>
+    </div> -->
+    <div class="preview-container">
+      <img :src="photoUrl" alt="Preview Photo" class="preview-image" />
+    </div>
+    <div class="button-container">
+      <q-btn
+        class="save-button"
+        color="primary"
+        label="Simpan"
+        @click="savePhoto"
+      />
     </div>
   </q-page>
 </template>
@@ -20,15 +31,34 @@ export default {
   components: {
     AppNavigation,
   },
-  props: {
-    photoUrl: {
-      type: String,
-      required: true,
-    },
+  // props: {
+  //   photoUrl: {
+  //     type: String,
+  //     required: true,
+  //   },
+  // },
+  // methods: {
+  //   savePhoto() {
+  //     console.log("Foto berhasil disimpan:", this.photoUrl);
+  //   },
+  // },
+  data() {
+    return {
+      photoUrl: null,
+    };
+  },
+  mounted() {
+    // Ambil link sementara dari local storage
+    this.photoUrl = localStorage.getItem("temporary-photo");
   },
   methods: {
     savePhoto() {
-      console.log("Foto berhasil disimpan:", this.photoUrl);
+      // Simpan gambar ke local storage
+      const permanentPhotoUrl = this.photoUrl;
+      localStorage.setItem("profile-photo", permanentPhotoUrl);
+      localStorage.removeItem("temporary-photo");
+
+      this.$router.push("/cropimage"); // Arahkan ke halaman CropImage.vue
     },
   },
 };
@@ -36,27 +66,31 @@ export default {
 
 <style scoped>
 .preview-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 15px;
+  position: relative;
+  margin-top: 10px;
+  margin-left: 15px;
+  width: 343px;
+  height: 550px;
 }
 
 .preview-image {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px 8px 0 0;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
 }
 
 .save-button {
-  width: 375px;
+  width: 343px;
   height: 44px;
   background-color: #002984;
   color: #ffffff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
+  position: relative;
+  margin-left: 15px;
+  margin-top: 0px;
+  border-radius: 0 0 8px 8px;
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
   cursor: pointer;
 }
