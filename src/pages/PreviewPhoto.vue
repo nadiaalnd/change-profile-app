@@ -49,16 +49,18 @@ export default {
   },
   mounted() {
     // Ambil link sementara dari local storage
+    console.log("Foto sementara:", localStorage.getItem("temporary-photo"));
     this.photoUrl = localStorage.getItem("temporary-photo");
   },
   methods: {
     savePhoto() {
       // Simpan gambar ke local storage
       const permanentPhotoUrl = this.photoUrl;
+      console.log("Foto berhasil disimpan:", permanentPhotoUrl);
       localStorage.setItem("profile-photo", permanentPhotoUrl);
       localStorage.removeItem("temporary-photo");
 
-      this.$router.push("/cropimage");
+      this.$router.push("/changephoto");
     },
   },
 };

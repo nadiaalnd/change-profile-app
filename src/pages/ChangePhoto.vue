@@ -19,7 +19,7 @@
         style="display: none"
         v-on:change="handleFileUpload"
       />
-      <div class="save-button">
+      <div class="save-button" v-on:click="savePhoto">
         <div class="button-text">Simpan</div>
       </div>
     </div>
@@ -38,6 +38,9 @@ export default {
       selectedImage: null,
     };
   },
+  mounted() {
+    this.selectedImage = localStorage.getItem("profile-photo");
+  },
   methods: {
     choosePhoto() {
       const fileInput = document.getElementById("fileInput");
@@ -45,11 +48,30 @@ export default {
     },
     handleFileUpload(event) {
       const file = event.target.files[0];
-      this.selectedImage = URL.createObjectURL(file);
-      this.$router.push({
-        name: "cropimage",
-        params: { file: file },
+      this.encodeBase64ImageFile(file)
+      .then(base64String => {
+        console.log(base64String);
+        this.selectedImage = base64String;
+      })
+      .catch(error => {
+        console.error('Terjadi kesalahan saat mengencode gambar:', error);
       });
+    },
+
+    encodeBase64ImageFile(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    },
+
+    savePhoto() {
+      localStorage.setItem("profile-photo", this.selectedImage);
+      console.log(localStorage.getItem("profile-photo"));
+      console.log("Photo saved!");
+      this.$router.push("/"); // Redirect to home page
     },
   },
 };

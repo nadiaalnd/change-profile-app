@@ -85,6 +85,7 @@ export default {
       // this.stopCamera();
       // const canvas = document.createElement("canvas");
       const photoUrl = canvas.toDataURL();
+      // console.log(photoUrl);
       this.stopCamera();
 
       // Simpan di local storage

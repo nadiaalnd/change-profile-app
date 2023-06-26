@@ -87,6 +87,10 @@ export default {
       localStorage.setItem("profile-photo", this.fileUrl);
       this.$router.push("/");
     },
+
+    mounted() {
+      this.init();
+    },
   },
 };
 </script>
