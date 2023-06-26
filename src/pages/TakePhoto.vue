@@ -81,18 +81,14 @@ export default {
         canvasWidth,
         canvasHeight
       );
-
       // const photoUrl = canvas.toDataURL();
       // this.stopCamera();
       // const canvas = document.createElement("canvas");
-      // // Kode lainnya
-
       const photoUrl = canvas.toDataURL();
       this.stopCamera();
 
-      // Simpan gambar di local storage
+      // Simpan di local storage
       localStorage.setItem("temporary-photo", photoUrl);
-
       this.$router.push("/previewphoto");
     },
   },

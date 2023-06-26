@@ -58,7 +58,7 @@ export default {
       localStorage.setItem("profile-photo", permanentPhotoUrl);
       localStorage.removeItem("temporary-photo");
 
-      this.$router.push("/cropimage"); // Arahkan ke halaman CropImage.vue
+      this.$router.push("/cropimage");
     },
   },
 };

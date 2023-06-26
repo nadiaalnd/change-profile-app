@@ -83,9 +83,8 @@ export default {
     },
     saveCroppedImage() {
       // const croppedData = this.$refs.cropper.getCroppedCanvas().toDataURL();
-      // save to local storage
+      // simpan ke local storage
       localStorage.setItem("profile-photo", this.fileUrl);
-      // redirect to index page
       this.$router.push("/");
     },
   },
